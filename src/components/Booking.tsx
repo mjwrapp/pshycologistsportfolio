@@ -1,121 +1,228 @@
-import SectionWrapper from './SectionWrapper';
 import { useState } from 'react';
-import { Calendar, Clock, CreditCard, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Calendar, CreditCard, Sparkles } from 'lucide-react';
+import SectionWrapper from './SectionWrapper';
+import PricingCard from './PricingCard';
+import BookingForm from './BookingForm';
+
+const sessionOptions = [
+  {
+    title: '30 min session',
+    copy: 'A focused check-in for immediate support and gentle guidance.',
+  },
+  {
+    title: '60 min session',
+    copy: 'A deeper, restorative space for exploration, processing, and growth.',
+  },
+];
+
+const modeOptions = [
+  {
+    title: 'Video Call',
+    copy: 'A warm, face-to-face experience from wherever you feel safe.',
+  },
+  {
+    title: 'Audio Call',
+    copy: 'A calm, private session with minimal visual distraction.',
+  },
+];
+
+const pricingPlans = [
+  {
+    title: 'Single Session',
+    price: '$120',
+    benefits: ['Personalized support', 'Flexible scheduling', 'Calming guidance'],
+    badge: '',
+  },
+  {
+    title: '5 Session Package',
+    price: '$550',
+    benefits: ['10% savings', 'Weekly continuity', 'Progress tracking'],
+    badge: 'Most Popular',
+  },
+  {
+    title: '10 Session Package',
+    price: '$1,000',
+    benefits: ['Best value', 'Deep healing focus', 'Priority scheduling'],
+    badge: '',
+  },
+];
 
 export default function Booking() {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  
-  const timeSlots = ["09:00 AM", "11:00 AM", "01:00 PM", "03:30 PM", "05:00 PM"];
+  const [selectedPackage, setSelectedPackage] = useState('5 Session Package');
+  const [selectedSession, setSelectedSession] = useState('60 min session');
+  const [selectedMode, setSelectedMode] = useState('Video Call');
 
   return (
-    <SectionWrapper id="booking">
-      <div className="max-w-5xl mx-auto glass p-8 md:p-12 rounded-[3rem] shadow-[0_20px_50px_rgba(154,130,185,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-        <div className="text-center mb-10">
-          <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">Take The First Step</span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Book Your Session</h2>
-          <p className="text-pastel-text/80 dark:text-dark-text/80">Select a date, time, and securely complete your booking.</p>
-        </div>
+    <div className="relative overflow-hidden min-h-screen pb-24">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-20 -left-24 w-72 h-72 rounded-full bg-primary/20 blur-3xl animate-blob" />
+        <div className="absolute top-16 right-0 w-80 h-80 rounded-full bg-pastel-lavender/70 blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
+        <div className="absolute -bottom-16 left-1/2 w-96 h-96 rounded-full bg-white/80 blur-3xl dark:bg-primary/10 animate-blob" style={{ animationDelay: '4s' }} />
+      </div>
 
-        <form className="grid md:grid-cols-2 gap-12">
-          {/* Left Column: Details & Time */}
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium mb-2 opacity-80">Full Name</label>
-              <input type="text" className="w-full bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" placeholder="Jane Doe" required />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-2 opacity-80">Email</label>
-                <input type="email" className="w-full bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" placeholder="jane@example.com" required />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2 opacity-80">Phone</label>
-                <input type="tel" className="w-full bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" placeholder="+1..." required />
-              </div>
-            </div>
-            
-            <div className="pt-4 border-t border-black/5 dark:border-white/5">
-              <label className="flex items-center gap-2 text-sm font-medium mb-4 opacity-80">
-                <Calendar size={18} /> Preferred Date
-              </label>
-              <input 
-                type="date" 
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full bg-white/50 dark:bg-black/20 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors cursor-pointer" 
-                required 
-              />
-            </div>
+      <div className="relative z-10">
+        <SectionWrapper id="booking-hero" className="pt-24 pb-16">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-semibold mb-4"
+            >
+              <Sparkles size={18} /> Soft, calming booking flow
+            </motion.span>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+            >
+              Book Your Session
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-lg text-pastel-text/80 dark:text-dark-text/80 max-w-3xl mx-auto"
+            >
+              Choose a caring, simple pathway to emotional safety and meaningful change. Your well-being is held gently by a therapist who listens with warmth and clarity.
+            </motion.p>
+          </div>
+        </SectionWrapper>
 
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-4 opacity-80">
-                <Clock size={18} /> Time Slot
-              </label>
-              <div className="flex flex-wrap gap-3">
-                {timeSlots.map(time => (
-                  <button
-                    key={time}
-                    type="button"
-                    onClick={() => setSelectedTime(time)}
-                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${selectedTime === time ? 'bg-primary text-white shadow-lg' : 'bg-white/50 dark:bg-black/20 hover:bg-white dark:hover:bg-black/40 border border-black/5 dark:border-white/5'}`}
-                  >
-                    {time}
-                  </button>
+        <SectionWrapper id="session-details">
+          <div className="grid gap-10 lg:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="glass rounded-[2rem] border border-white/60 p-8"
+            >
+              <div className="mb-6">
+                <span className="text-primary uppercase tracking-[0.35em] text-xs font-semibold">Session Details</span>
+                <h2 className="text-3xl font-bold mt-4">Duration Options</h2>
+                <p className="mt-3 text-pastel-text/80 dark:text-dark-text/80">Pick the pace that feels most supportive for your first session.</p>
+              </div>
+              <div className="grid gap-4">
+                {sessionOptions.map((session) => (
+                  <div key={session.title} className="rounded-3xl border border-black/10 dark:border-white/10 p-5 bg-white/80 dark:bg-black/20 shadow-sm">
+                    <h3 className="font-semibold text-lg mb-2">{session.title}</h3>
+                    <p className="text-pastel-text/80 dark:text-dark-text/80">{session.copy}</p>
+                  </div>
                 ))}
               </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="glass rounded-[2rem] border border-white/60 p-8"
+            >
+              <div className="mb-6">
+                <span className="text-primary uppercase tracking-[0.35em] text-xs font-semibold">Mood & Mode</span>
+                <h2 className="text-3xl font-bold mt-4">Mode of Support</h2>
+                <p className="mt-3 text-pastel-text/80 dark:text-dark-text/80">Select the environment that helps you feel safest and most present.</p>
+              </div>
+              <div className="grid gap-4">
+                {modeOptions.map((mode) => (
+                  <div key={mode.title} className="rounded-3xl border border-black/10 dark:border-white/10 p-5 bg-white/80 dark:bg-black/20 shadow-sm">
+                    <h3 className="font-semibold text-lg mb-2">{mode.title}</h3>
+                    <p className="text-pastel-text/80 dark:text-dark-text/80">{mode.copy}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </SectionWrapper>
+
+        <SectionWrapper id="packages">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="text-primary uppercase text-sm tracking-[0.35em] font-semibold">Packages</span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-4">Flexible plans for every step.</h2>
+            <p className="mt-3 text-pastel-text/80 dark:text-dark-text/80">Choose a plan that supports consistency and progress with gentle, trustworthy care.</p>
+          </div>
+          <div className="grid gap-6 lg:grid-cols-3">
+            {pricingPlans.map((plan) => (
+              <PricingCard
+                key={plan.title}
+                title={plan.title}
+                price={plan.price}
+                benefits={plan.benefits}
+                badge={plan.badge}
+                selected={selectedPackage === plan.title}
+                onSelect={() => setSelectedPackage(plan.title)}
+              />
+            ))}
+          </div>
+        </SectionWrapper>
+
+        <SectionWrapper id="booking-form">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] items-start">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="glass rounded-[2rem] border border-white/60 p-8"
+            >
+              <span className="text-primary uppercase tracking-[0.35em] text-xs font-semibold">Booking Form</span>
+              <h2 className="text-3xl font-bold mt-4">Ready to schedule?</h2>
+              <p className="mt-3 text-pastel-text/80 dark:text-dark-text/80">Share a few details and we’ll prepare a calm, confidential session tailored to you.</p>
+              <div className="mt-8 space-y-4 text-sm text-pastel-text/80 dark:text-dark-text/80">
+                <div className="flex items-center gap-3">
+                  <Calendar size={18} className="text-primary" />
+                  <span>Sessions are private, secure, and centered around your comfort.</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CreditCard size={18} className="text-primary" />
+                  <span>All booking requests are handled with confidentiality and warmth.</span>
+                </div>
+              </div>
+            </motion.div>
+            <BookingForm
+              selectedPackage={selectedPackage}
+              setSelectedPackage={setSelectedPackage}
+              selectedSession={selectedSession}
+              setSelectedSession={setSelectedSession}
+              selectedMode={selectedMode}
+              setSelectedMode={setSelectedMode}
+            />
+          </div>
+        </SectionWrapper>
+
+        <SectionWrapper id="payment">
+          <div className="glass rounded-[2rem] border border-white/60 p-8">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+              <div>
+                <span className="text-primary uppercase tracking-[0.35em] text-xs font-semibold">Payment</span>
+                <h2 className="text-3xl font-bold mt-4">Trusted payment preview</h2>
+                <p className="mt-3 text-pastel-text/80 dark:text-dark-text/80 max-w-2xl">
+                  Choose the payment method that feels right for you. This is a preview interface for comfortable checkout flow.
+                </p>
+              </div>
+              <div className="rounded-[2rem] bg-white/80 dark:bg-black/20 p-6 border border-black/10 dark:border-white/10 shadow-sm w-full max-w-md">
+                <div className="grid gap-4">
+                  {['UPI', 'Card', 'Net Banking'].map((method) => (
+                    <div key={method} className="rounded-3xl border border-black/10 dark:border-white/10 p-4 bg-white dark:bg-dark-bg/80 text-sm font-medium">
+                      {method}
+                    </div>
+                  ))}
+                </div>
+                <button className="mt-8 w-full rounded-3xl bg-primary text-white py-4 font-semibold shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all">
+                  Proceed to Payment
+                </button>
+                <p className="mt-4 text-center text-pastel-text/80 dark:text-dark-text/80 text-sm">
+                  Secure & Confidential
+                </p>
+              </div>
             </div>
           </div>
-
-          {/* Right Column: Payment & Confirmation */}
-          <div className="bg-primary/5 dark:bg-black/20 rounded-3xl p-8 border border-primary/10 flex flex-col justify-between">
-            <div>
-              <h4 className="flex items-center gap-2 font-bold text-lg mb-6">
-                <CreditCard size={20} className="text-primary" /> Secure Payment
-              </h4>
-              
-              <div className="space-y-4 mb-8">
-                <label className="flex items-center justify-between p-4 bg-white dark:bg-dark-card rounded-xl border border-primary cursor-pointer shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <input type="radio" name="payment" className="accent-primary" defaultChecked />
-                    <span className="font-medium">Credit / Debit Card</span>
-                  </div>
-                  <div className="flex gap-1">
-                    <div className="w-8 h-5 bg-blue-500 rounded flex items-center justify-center text-[8px] text-white font-bold">VISA</div>
-                    <div className="w-8 h-5 bg-red-400 rounded flex items-center justify-center text-[8px] text-white font-bold">MC</div>
-                  </div>
-                </label>
-                
-                <label className="flex items-center justify-between p-4 bg-white/50 dark:bg-dark-card/50 rounded-xl border border-transparent hover:border-primary/30 cursor-pointer transition-colors">
-                  <div className="flex items-center gap-3">
-                    <input type="radio" name="payment" className="accent-primary" />
-                    <span className="font-medium">PayPal / UPI</span>
-                  </div>
-                </label>
-              </div>
-
-              <div className="bg-white/40 dark:bg-black/30 p-4 rounded-xl space-y-3 text-sm">
-                <div className="flex justify-between opacity-80">
-                  <span>Session Fee (50 mins)</span>
-                  <span>$150.00</span>
-                </div>
-                <div className="flex justify-between opacity-80">
-                  <span>Taxes</span>
-                  <span>$5.00</span>
-                </div>
-                <div className="flex justify-between font-bold text-lg pt-3 border-t border-black/10 dark:border-white/10">
-                  <span>Total</span>
-                  <span>$155.00</span>
-                </div>
-              </div>
-            </div>
-
-            <button type="submit" className="w-full mt-8 bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-xl shadow-primary/20">
-              Confirm & Pay <ChevronRight size={20} />
-            </button>
-          </div>
-        </form>
+        </SectionWrapper>
       </div>
-    </SectionWrapper>
+    </div>
   );
 }

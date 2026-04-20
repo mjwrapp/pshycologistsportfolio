@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-scroll';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -28,15 +28,13 @@ export default function Hero() {
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
             <Link 
-              to="booking" 
-              smooth
+              to="/booking"
               className="cursor-pointer bg-primary text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-primary-dark transition-all transform hover:-translate-y-1 shadow-xl shadow-primary/30 w-full sm:w-auto text-center"
             >
-              Book Appointment
+              Book Appointment Now
             </Link>
             <Link 
-              to="services" 
-              smooth
+              to="/#services"
               className="cursor-pointer px-8 py-4 rounded-full text-lg font-medium glass glass-hover w-full sm:w-auto text-center"
             >
               Explore Services

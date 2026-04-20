@@ -1,19 +1,35 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import WhyChoose from './components/WhyChoose';
-import Testimonials from './components/Testimonials';
-import Booking from './components/Booking';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FloatingBlobs from './components/FloatingBlobs';
+import Home from './pages/Home';
+import BookingPage from './pages/BookingPage';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+function AnimatedRoutes() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/booking" element={<BookingPage />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
-  // Initialize dark mode based on user preference or time
   useEffect(() => {
     const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     setDarkMode(isDark);
@@ -28,22 +44,19 @@ function App() {
   }, [darkMode]);
 
   return (
-    <div className="relative overflow-hidden min-h-screen">
-      <FloatingBlobs />
-      <div className="relative z-10 font-sans selection:bg-primary-light/50 selection:text-pastel-text dark:selection:bg-primary-dark/80 dark:selection:text-white">
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-        <main>
-          <Hero />
-          <About />
-          <Services />
-          <WhyChoose />
-          <Testimonials />
-          <Booking />
-          <Contact />
-        </main>
-        <Footer />
+    <>
+      <ScrollToTop />
+      <div className="relative overflow-hidden min-h-screen flex flex-col">
+        <FloatingBlobs />
+        <div className="relative z-10 font-sans selection:bg-primary-light/50 selection:text-pastel-text dark:selection:bg-primary-dark/80 dark:selection:text-white flex-1 flex flex-col">
+          <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+          <main className="flex-1">
+            <AnimatedRoutes />
+          </main>
+          <Footer />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
